@@ -26,78 +26,75 @@
    background-color:#1d242b !important;
 }
 
-
-.btn-color3 {
-   color: #fff;
+.btn.btn-color3 {
+   color: #c7eeff;
    background-color: #0077c0;
    border-color: #0077c0;
 }
-
-.btn-color3:hover {
-   color: #fff;
+ 
+.btn.btn-color3:hover {
+   color: #c7eeff;
    background-color: #006eb3;
    border-color: #007ecc;
 }
-
-.btn-check:focus + .btn-color3, .btn-color3:focus {
-   color: #fff;
+ 
+.btn.btn-color3:focus, .btn.btn-color3.focus {
+   color: #c7eeff;
    background-color: #006eb3;
    border-color: #007ecc;
-   box-shadow: 0 0 0 0.25rem rgba(0, 119, 192, 0.5);
+   box-shadow: 0 0 0 0.2rem rgba(0, 119, 192, 0.5);
 }
-
-.btn-check:checked + .btn-color3, .btn-check:active + .btn-color3, .btn-color3:active, .btn-color3.active, .show > .btn-color3.dropdown-toggle {
-   color: #fff;
+ 
+.btn.btn-color3.disabled, .btn.btn-color3:disabled {
+   color: #c7eeff;
+   background-color: #0077c0;
+   border-color: #0077c0;
+}
+ 
+.btn.btn-color3:not(:disabled):not(.disabled):active, .btn.btn-color3:not(:disabled):not(.disabled).active, .show > .btn.btn-color3.dropdown-toggle {
+   color: #c7eeff;
    background-color: #007ecc;
-   border-color: #007ecc;
+   border-color: #006eb3;
+}
+ 
+.btn.btn-color3:not(:disabled):not(.disabled):active:focus, .btn.btn-color3:not(:disabled):not(.disabled).active:focus, .show > .btn.btn-color3.dropdown-toggle:focus {
+   box-shadow: 0 0 0 0.2rem rgba(0, 119, 192, 0.5);
 }
 
-.btn-check:checked + .btn-color3:focus, .btn-check:active + .btn-color3:focus, .btn-color3:active:focus, .btn-color3.active:focus, .show > .btn-color3.dropdown-toggle:focus {
-   box-shadow: 0 0 0 0.25rem rgba(0, 119, 192, 0.5);
-}
-
-.btn-color3:disabled, .btn-color3.disabled {
-   color: #fff;
-   background-color: #0077c0;
-   border-color: #0077c0;
-}
-
-.btn-color4 {
-   color: #fff;
+.btn.btn-color4 {
+   color: #c7eeff;
    background-color: #1d242b;
    border-color: #1d242b;
 }
-
-.btn-color4:hover {
-   color: #fff;
+ 
+.btn.btn-color4:hover {
+   color: #c7eeff;
    background-color: #29333d;
    border-color: #1f262e;
 }
-
-.btn-check:focus + .btn-color4, .btn-color4:focus {
-   color: #fff;
+ 
+.btn.btn-color4:focus, .btn.btn-color4.focus {
+   color: #c7eeff;
    background-color: #29333d;
    border-color: #1f262e;
-   box-shadow: 0 0 0 0.25rem rgba(29, 36, 43, 0.5);
+   box-shadow: 0 0 0 0.2rem rgba(29, 36, 43, 0.5);
 }
-
-.btn-check:checked + .btn-color4, .btn-check:active + .btn-color4, .btn-color4:active, .btn-color4.active, .show > .btn-color4.dropdown-toggle {
-   color: #fff;
+ 
+.btn.btn-color4.disabled, .btn.btn-color4:disabled {
+   color: #c7eeff;
+   background-color: #1d242b;
+   border-color: #1d242b;
+}
+ 
+.btn.btn-color4:not(:disabled):not(.disabled):active, .btn.btn-color4:not(:disabled):not(.disabled).active, .show > .btn.btn-color4.dropdown-toggle {
+   color: #c7eeff;
    background-color: #1f262e;
-   border-color: #1f262e;
+   border-color: #29333d;
 }
-
-.btn-check:checked + .btn-color4:focus, .btn-check:active + .btn-color4:focus, .btn-color4:active:focus, .btn-color4.active:focus, .show > .btn-color4.dropdown-toggle:focus {
-   box-shadow: 0 0 0 0.25rem rgba(29, 36, 43, 0.5);
+ 
+.btn.btn-color4:not(:disabled):not(.disabled):active:focus, .btn.btn-color4:not(:disabled):not(.disabled).active:focus, .show > .btn.btn-color4.dropdown-toggle:focus {
+   box-shadow: 0 0 0 0.2rem rgba(29, 36, 43, 0.5);
 }
-
-.btn-color4:disabled, .btn-color4.disabled {
-   color: #fff;
-   background-color: #1d242b;
-   border-color: #1d242b;
-}
-
-
 
 .text-color2 {
    color: #c7eeff !important;
@@ -111,8 +108,6 @@
    color: #1d242b !important;
 }
 
-
-
 .border-color3 {
    border-color: #0077c0 !important;
 }
@@ -120,8 +115,6 @@
 .border-color4 {
    border-color: #1d242b !important;
 }
-
-
 
 .alert-colors {
    color: #0077c0;
@@ -131,4 +124,17 @@
 
 .alert-colors .alert-link {
    color: #1d242b;
+}
+
+input.ph-color3::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+   color: #0077c0;
+   opacity: 1; /* Firefox */
+}
+
+input.ph-color3:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #0077c0;
+}
+
+input.ph-color3::-ms-input-placeholder { /* Microsoft Edge */
+   color: #0077c0;
 }
