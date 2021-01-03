@@ -8,7 +8,7 @@ export const alphaRegex = /^[ñÑ.a-zA-Záéíóú]*$/;
 
 export const alphaNumRegex = /^[ñÑa-zA-Z0-9áéíóú]*$/;
 
-export const spanishRegex = /[ñÑ]/;
+export const spanishRegex = /[ñÑáéíóú]/;
 
 export function afterToday(value){
    return (isAfter(new Date(), new Date(value))) ? null : "Su fecha de nacimiento debe ser anterior a la fecha actual.";
@@ -31,7 +31,7 @@ export function required(value){
 }
    
 export function spanish(value){
-   return (spanishRegex.test(String(value).trim())) ? "Este campo no debe contener ñ." : null;
+   return (spanishRegex.test(String(value).trim())) ? "Este campo no debe contener ñ ni tildes." : null;
 }
    
 export function email(value){

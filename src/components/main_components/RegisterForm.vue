@@ -10,7 +10,7 @@
 
          <div class="card-body bg-color1 p-4">
 
-            <p class="text-color4">Ingrese sus datos personales para registrarse, si ya tiene una cuenta puede <router-link href="" :to="{name: 'login'}" class="text-color3">iniciar sesión</router-link> con su nombre de usuario y contraseña.</p>
+            <p class="text-color4 pb-2">Ingrese sus datos personales para registrarse, si ya tiene una cuenta puede <router-link href="" :to="{name: 'login'}" class="text-color3">iniciar sesión</router-link> con su nombre de usuario y contraseña.</p>
 
             <div class="mb-3">
                <input type="text" :class="(labels.firstname.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Nombres*" v-model.trim="form.firstname">

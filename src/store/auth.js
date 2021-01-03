@@ -13,7 +13,7 @@ export default {
    getters: {
 
       authenticated(state){
-         return state.token && state.user;
+         return !!state.token && !!state.user;
       },
 
       user(state){
@@ -35,8 +35,11 @@ export default {
    actions: {
 
       async login({ dispatch }, credentials){
-         let response = await axios.post("auth/login", credentials);
-         return dispatch("attempt", response.data.token);
+         await axios.post("auth/login", credentials).then((response) => {
+            return (response.data.error == "Unauthorized" && response.data.status == 401)
+               ? response.data
+               : dispatch("attempt", response.data.token);
+         });
       },
 
       async attempt({ commit, state }, token){

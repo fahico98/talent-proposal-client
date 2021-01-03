@@ -9,20 +9,30 @@
       <form @submit.prevent="submit">
 
          <div class="card-body bg-color1 p-4">
-            <p class="text-color4">Inicie sesión con su usuario y contraseña, si aún no tiene una cuenta de acceso puede <router-link href="" :to="{name: 'register'}" class="text-color3">registrase</router-link> con sus datos personales.</p>
 
-            <div class="mb-3">
-               <label for="username-field" class="col-form-label text-color4">Nombre de usuario:</label>
-               <input type="text" class="form-control text-color3" id="username-field" v-model="form.username">
+            <p class="text-color4 pb-3">Inicie sesión con su usuario y contraseña, si aún no tiene una cuenta de acceso puede <router-link href="" :to="{name: 'register'}" class="text-color3">registrase</router-link> con sus datos personales.</p>
+
+            <div class="pb-3">
+               <!--<label for="username-field" class="col-form-label text-color4">Nombre de usuario:</label>-->
+               <input placeholder="Nombre de usuario" type="text" :class="(labels.username.error == '' || loading) ? '' : 'is-invalid'" class="form-control text-color3 ph-color3" id="username-field" v-model="form.username">
+               <p :class="(labels.username.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 13px">{{ (labels.username.error == '' || loading) ? labels.username.default : labels.username.error }}</p>
             </div>
 
-            <div class="mb-3">
-               <label for="password-field" class="col-form-label text-color4">Contraseña:</label>
-               <input type="password" class="form-control text-color3" id="password-field" v-model="form.password">
+            <div class="pb-0">
+               <!--<label for="password-field" class="col-form-label text-color4">Contraseña:</label>-->
+               <input placeholder="Contraseña" type="password" :class="(labels.password.error == '' || loading) ? '' : 'is-invalid'" class="form-control text-color3 ph-color3" id="password-field" v-model="form.password">
+               <p :class="(labels.password.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 13px">{{ (labels.password.error == '' || loading) ? labels.password.default : labels.password.error }}</p>
+            </div>
+
+         </div>
+
+         <div class="card-footer bg-color1" v-if="loading">
+            <div class="spinner-border text-color3 mt-2 mb-1" role="status">
+               <span class="visually-hidden">Cargando...</span>
             </div>
          </div>
 
-         <div class="card-footer bg-color1">
+         <div class="card-footer bg-color1" v-else>
             <button type="submit" class="btn btn-color3 text-color2 my-1">Enviar</button>
             <button type="button" class="btn btn-color4 text-color2 my-1 mx-2" @click.prevent="clear">Limpiar campos</button>
          </div>
@@ -35,6 +45,7 @@
 <script>
 
    import { mapActions, mapGetters } from "vuex";
+   import Vue from "vue";
 
    export default {
       
@@ -43,7 +54,12 @@
             form: {
                username: "",
                password: ""
-            }
+            },
+            labels: {
+               username: { error: "", default: "Ingrese su nombre de usuario." },
+               password: { error: "", default: "Ingrese su contraseña." }
+            },
+            loading: false
          }
       },
 
@@ -65,18 +81,41 @@
          }),
 
          async submit(){
-            await this.login(this.form)
-               .then(() => {
-                  this.$router.push({name: "profile", params: {username: this.user.username}});
-               })
-               .catch((error) => {
-                  console.log(`Error: ${error}`);
+            
+            this.validate()
+
+            if(this.labels.username.error == "" && this.labels.password.error == ""){
+               
+               this.loading = true;
+
+               await this.login(this.form).then(() => {
+
+                  this.loading = false;
+                  
+                  if(this.authenticated){
+                     this.$router.push({name: "profile", params: {username: this.user.username}});
+                  }else{
+                     Vue.$toast.open({
+                        message: "<b>Error:</b> El nombre de usuario o la contraseña son incorrectos.",
+                        type: "error",
+                        position: "bottom",
+                        duration: 5000
+                     });
+                  }
                });
+            }
+         },
+
+         validate(){
+            this.labels.username.error = (String(this.form.username).trim() == "") ? "El nombre de usuario es obligatorio." : "";
+            this.labels.password.error = (String(this.form.password).trim() == "") ? "La contraseña no puede estár vacía." : "";
          },
 
          clear(){
             this.form.username = "";
             this.form.password = "";
+            this.labels.username.error = "";
+            this.labels.password.error = "";
          }
       }
    }
