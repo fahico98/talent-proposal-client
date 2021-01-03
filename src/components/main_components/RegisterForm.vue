@@ -13,51 +13,47 @@
             <p class="text-color4">Ingrese sus datos personales para registrarse, si ya tiene una cuenta puede <router-link href="" :to="{name: 'login'}" class="text-color3">iniciar sesión</router-link> con su nombre de usuario y contraseña.</p>
 
             <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Nombre" v-model="form.firstname">
+               <input type="text" :class="(labels.firstname.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Nombres*" v-model.trim="form.firstname">
+               <p :class="(labels.firstname.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.firstname.error == "" || loading) ? labels.firstname.default : labels.firstname.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Apellido" v-model="form.lastname">
+               <input type="text" :class="(labels.lastname.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Apellidos*" v-model.trim="form.lastname">
+               <p :class="(labels.lastname.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.lastname.error == "" || loading) ? labels.lastname.default : labels.lastname.error }}</p>
             </div>
 
             <div class="mb-3">
-               <select class="form-select form-select-sm text-color3" v-model="form.gender">
-                  <option value="null" disabled selected hidden>Genero</option>
+               <select :class="(labels.gender.error == '' || loading) ? '' : 'is-invalid'" class="form-select form-select-sm text-color3" v-model.trim="form.gender">
+                  <option value="null" disabled selected hidden>Género*</option>
                   <option value="masculino">Masculino</option>
                   <option value="femenino">Femenino</option>
                </select>
+               <p :class="(labels.gender.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.gender.error == "" || loading) ? labels.gender.default : labels.gender.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Pais" v-model="form.country">
+               <input :type="datepickerType" placeholder="Fecha de nacimiento*" :class="(labels.birthday.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" @focus="datepickerType = 'date'" v-model.trim="form.birthday">
+               <p :class="(labels.birthday.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.birthday.error == "" || loading) ? labels.birthday.default : labels.birthday.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Ciudad" v-model="form.city">
+               <input type="text" :class="(labels.email.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Correo electrónico*" v-model.trim="form.email">
+               <p :class="(labels.email.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.email.error == "" || loading) ? labels.email.default : labels.email.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Número de teléfono" v-model="form.phone_number">
+               <input type="text" :class="(labels.username.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Nombre de usuario*" v-model.trim="form.username">
+               <p :class="(labels.username.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.username.error == "" || loading) ? labels.username.default : labels.username.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input :type="datepickerType" placeholder="Fecha de nacimiento" class="form-control form-control-sm text-color3 ph-color3" @focus="datepickerType = 'date'" v-model="form.birthday">
-            </div>
-
-            <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Correo electrónico" v-model="form.email">
-            </div>
-
-            <div class="mb-3">
-               <input type="text" class="form-control form-control-sm text-color3 ph-color3" placeholder="Nombre de usuario" v-model="form.username">
-            </div>
-
-            <div class="mb-3">
-               <input type="password" class="form-control form-control-sm text-color3 ph-color3" placeholder="Contraseña" v-model="form.password">
+               <input type="password" :class="(labels.password.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Contraseña*" v-model.trim="form.password">
+               <p :class="(labels.password.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.password.error == "" || loading) ? labels.password.default : labels.password.error }}</p>
             </div>
 
             <div class="mb-1">
-               <input type="password" class="form-control form-control-sm text-color3 ph-color3" placeholder="Confirmar contraseña" v-model="form.conf_password">
+               <input type="password" :class="(labels.conf_password.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Confirmar contraseña*" v-model.trim="form.conf_password">
+               <p :class="(labels.conf_password.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.conf_password.error == "" || loading) ? labels.conf_password.default : labels.conf_password.error }}</p>
             </div>
             
          </div>
@@ -80,7 +76,8 @@
 
 <script>
 
-   import Vue from "vue";
+   import * as validator from "@/util/formRegisterValidation";
+   //import axios from "axios";
 
    export default {
 
@@ -90,49 +87,193 @@
                firstname: "",
                lastname: "",
                gender: "null",
-               country: "",
-               city: "",
-               phone_number: "",
                birthday: "",
                email: "",
                username: "",
                password: "",
                conf_password: ""
             },
+            labels: {
+               firstname: { error: "", default: "Nombres completos, no se permiten simbolos." },
+               lastname: { error: "", default: "Apellidos completos, no se permiten simbolos." },
+               gender: { error: "", default: "Seleccione su género." },
+               birthday: { error: "", default: "Debe ser mayor de 18 años para registrarse." },
+               email: { error: "", default: "Ingrese una dirección de correo electrónico valida." },
+               username: { error: "", default: "Entre 6 y 25 caracteres." },
+               password: { error: "", default: "Entre 8 y 35 caracteres." },
+               conf_password: { error: "", default: "Por favor repita su contraseña." }
+            },
             datepickerType: "text",
-            toastMessage: "",
             loading: false
          }
       },
 
       methods: {
 
+         async submit(){
+            this.loading = true;
+            await this.validation();
+            this.loading = false;
+         },
+
          clear(){
             this.form.firstname = "";
             this.form.lastname = "";
             this.form.gender = "null";
-            this.form.country = "";
-            this.form.city = "";
-            this.form.phone_number = "";
             this.form.birthday = "";
             this.form.email = "";
             this.form.username = "";
             this.form.password = "";
             this.form.conf_password = "";
             this.datepickerType = "text";
+            this.resetValidation();
          },
 
-         validation(){
-
+         resetValidation(){
+            this.labels.firstname.error = "";
+            this.labels.lastname.error = "";
+            this.labels.gender.error = ""; 
+            this.labels.birthday.error = "";
+            this.labels.email.error = "";
+            this.labels.username.error = "";
+            this.labels.password.error = "";
+            this.labels.conf_password.error = "";
          },
 
-         submit(){
-            Vue.$toast.open({
-               message: "<b>Error: </b> la cagaste !",
-               type: "error",
-               duration: 5000,
-               position: "bottom"
-            });
+         async validation(){
+            this.firstnameValidation();
+            this.lastnameValidation();
+            this.genderValidation();
+            this.birthdayValidation();
+            await this.emailValidation();
+            await this.usernameValidation();
+            this.passwordValidation();
+            this.confPasswordValidation();
+         },
+
+         firstnameValidation(){
+            
+            let buffer;
+
+            buffer = validator.required(this.form.firstname);
+            this.labels.firstname.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.alpha(this.form.firstname);
+            this.labels.firstname.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.firstname, 35);
+            this.labels.firstname.error = (buffer != null) ? buffer : "";
+         },
+
+         lastnameValidation(){
+            
+            let buffer;
+
+            buffer = validator.required(this.form.lastname);
+            this.labels.lastname.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.alpha(this.form.lastname);
+            this.labels.lastname.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.lastname, 35);
+            this.labels.lastname.error = (buffer != null) ? buffer : "";
+         },
+
+         genderValidation(){
+            this.labels.gender.error = (this.form.gender == "null") ? "Debe escoger un genero." : "";
+         },
+
+         birthdayValidation(){
+
+            let buffer;
+
+            buffer = validator.required(this.form.birthday);
+            this.labels.birthday.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.afterToday(this.form.birthday);
+            this.labels.birthday.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.rightAge(this.form.birthday);
+            this.labels.birthday.error = (buffer != null) ? buffer : "";
+         },
+
+         async emailValidation(){
+
+            let buffer;
+
+            buffer = validator.required(this.form.email);
+            this.labels.email.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.email(this.form.email);
+            this.labels.email.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.email, 35);
+            this.labels.email.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = await validator.uniqueEmail(this.form.email);
+            this.labels.email.error = (buffer != null) ? buffer : "";
+         },
+
+         async usernameValidation(){
+
+            let buffer;
+
+            buffer = validator.required(this.form.username);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.alphaNum(this.form.username);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.spanish(this.form.username);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.minLength(this.form.username, 6);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.username, 25);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = await validator.uniqueUsername(this.form.username);
+            this.labels.username.error = (buffer != null) ? buffer : "";
+         },
+
+         passwordValidation(){
+
+            let buffer;
+
+            buffer = validator.required(this.form.password);
+            this.labels.password.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.minLength(this.form.password, 8);
+            this.labels.password.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.password, 35);
+            this.labels.password.error = (buffer != null) ? buffer : "";
+         },
+
+         confPasswordValidation(){
+
+            let buffer = validator.required(this.form.conf_password);
+            this.labels.conf_password.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            this.labels.conf_password.error = (this.form.password.localeCompare(this.form.conf_password) == 0) ? "" : "Las contraseñas ingresadas no coinciden.";
          }
       }
    }

@@ -126,6 +126,10 @@
    color: #1d242b;
 }
 
+hr.divider-solid {
+   border-top: 3px solid #c7eeff;
+}
+
 input.ph-color3::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
    color: #0077c0;
    opacity: 1; /* Firefox */
