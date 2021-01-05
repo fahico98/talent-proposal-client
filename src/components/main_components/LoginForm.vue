@@ -82,7 +82,7 @@
 
          async submit(){
             
-            this.validate()
+            this.validate();
 
             if(this.labels.username.error == "" && this.labels.password.error == ""){
                

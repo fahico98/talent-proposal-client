@@ -4,9 +4,9 @@ import { differenceInDays, isAfter } from "date-fns";
 
 export const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export const alphaRegex = /^[ñÑ.a-zA-Záéíóú]*$/;
+export const alphaRegex = /^[ ñÑ.a-zA-Záéíóú]*$/;
 
-export const alphaNumRegex = /^[ñÑa-zA-Z0-9áéíóú]*$/;
+export const alphaNumRegex = /^[-_a-zA-Z0-9]*$/;
 
 export const spanishRegex = /[ñÑáéíóú]/;
 

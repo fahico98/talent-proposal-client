@@ -52,8 +52,8 @@
             </div>
 
             <div class="mb-1">
-               <input type="password" :class="(labels.conf_password.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Confirmar contraseña*" v-model.trim="form.conf_password">
-               <p :class="(labels.conf_password.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.conf_password.error == "" || loading) ? labels.conf_password.default : labels.conf_password.error }}</p>
+               <input type="password" :class="(labels.password_confirmation.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Confirmar contraseña*" v-model.trim="form.password_confirmation">
+               <p :class="(labels.password_confirmation.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.password_confirmation.error == "" || loading) ? labels.password_confirmation.default : labels.password_confirmation.error }}</p>
             </div>
             
          </div>
@@ -77,7 +77,9 @@
 <script>
 
    import * as validator from "@/util/formRegisterValidation";
-   //import axios from "axios";
+   import { mapActions, mapGetters } from "vuex";
+   import axios from "axios";
+   import Vue from "vue";
 
    export default {
 
@@ -91,7 +93,7 @@
                email: "",
                username: "",
                password: "",
-               conf_password: ""
+               password_confirmation: ""
             },
             labels: {
                firstname: { error: "", default: "Nombres completos, no se permiten simbolos." },
@@ -101,18 +103,64 @@
                email: { error: "", default: "Ingrese una dirección de correo electrónico valida." },
                username: { error: "", default: "Entre 6 y 25 caracteres." },
                password: { error: "", default: "Entre 8 y 35 caracteres." },
-               conf_password: { error: "", default: "Por favor repita su contraseña." }
+               password_confirmation: { error: "", default: "Por favor repita su contraseña." }
             },
             datepickerType: "text",
+            formValidated: true,
             loading: false
          }
       },
 
+      computed: {
+         ...mapGetters({
+            authenticated: "auth/authenticated",
+            user: "auth/user"
+         })
+      },
+
       methods: {
 
+         ...mapActions({
+            login: "auth/login"
+         }),
+
          async submit(){
+            
             this.loading = true;
             await this.validation();
+
+            if(this.formValidated){
+
+               let response = await axios.post("auth/create", this.form);
+
+               if(response.data.status == 201){
+
+                  await this.login({ "username": this.form.username, "password": this.form.password }).then(() => {
+                     
+                     this.loading = false;
+
+                     if(this.authenticated){
+                        this.$router.push({name: "profile", params: {username: this.user.username}});
+                     }else{
+                        Vue.$toast.open({
+                           message: "<b>Error:</b> Algo salió mal.",
+                           type: "error",
+                           position: "bottom",
+                           duration: 5000
+                        });
+                     }
+                  });
+
+               }else{
+                  Vue.$toast.open({
+                     message: "<b>Error:</b> Algo salió mal.",
+                     type: "error",
+                     position: "bottom",
+                     duration: 5000
+                  });
+               }
+            }
+
             this.loading = false;
          },
 
@@ -124,7 +172,7 @@
             this.form.email = "";
             this.form.username = "";
             this.form.password = "";
-            this.form.conf_password = "";
+            this.form.password_confirmation = "";
             this.datepickerType = "text";
             this.resetValidation();
          },
@@ -137,10 +185,12 @@
             this.labels.email.error = "";
             this.labels.username.error = "";
             this.labels.password.error = "";
-            this.labels.conf_password.error = "";
+            this.labels.password_confirmation.error = "";
+            this.formValidated = true;
          },
 
          async validation(){
+
             this.firstnameValidation();
             this.lastnameValidation();
             this.genderValidation();
@@ -148,7 +198,13 @@
             await this.emailValidation();
             await this.usernameValidation();
             this.passwordValidation();
-            this.confPasswordValidation();
+            this.passwordConfirmationValidation();
+
+            this.formValidated = true;
+
+            for(let label in this.labels){
+               if(String(this.labels[label].error) !== "") this.formValidated = false; break;
+            }
          },
 
          firstnameValidation(){
@@ -267,13 +323,13 @@
             this.labels.password.error = (buffer != null) ? buffer : "";
          },
 
-         confPasswordValidation(){
+         passwordConfirmationValidation(){
 
-            let buffer = validator.required(this.form.conf_password);
-            this.labels.conf_password.error = (buffer != null) ? buffer : "";
+            let buffer = validator.required(this.form.password_confirmation);
+            this.labels.password_confirmation.error = (buffer != null) ? buffer : "";
             if(buffer != null) return;
 
-            this.labels.conf_password.error = (this.form.password.localeCompare(this.form.conf_password) == 0) ? "" : "Las contraseñas ingresadas no coinciden.";
+            this.labels.password_confirmation.error = (this.form.password.localeCompare(this.form.password_confirmation) == 0) ? "" : "Las contraseñas ingresadas no coinciden.";
          }
       }
    }
