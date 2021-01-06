@@ -6,17 +6,24 @@
       <div class="container d-flex justify-content-between">
 
          <a class="navbar-brand d-flex align-items-center" href="#">
-            <img src="@/assets/icons/television.svg" width="40" alt="Icon"><span class="fs-3 fw-bolder text-color2">Industries</span>
+            <img src="@/assets/icons/television.svg" width="40" alt="Icon"><span class="fs-3 fw-bold text-color2 ms-1">Industries</span>
          </a>
          
          <div v-if="authenticated">
             <ul class="navbar-nav me-auto mb-lg-0">
+               
                <li class="nav-item">
                   <router-link class="nav-link active text-color2" :to="{name: 'profile', params: { username: user.username }}"><b>{{ user.username }}</b></router-link>
                </li>
+
+               <li class="nav-item">
+                  <router-link class="nav-link active text-color2" :to="{name: 'providers'}">Proveedores</router-link>
+               </li>
+               
                <li class="nav-item">
                   <a class="nav-link active text-color2" href="" @click.prevent="logout">Cerrar sesión</a>
                </li>
+
             </ul>
          </div>
 

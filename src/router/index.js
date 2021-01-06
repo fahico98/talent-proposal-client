@@ -7,6 +7,7 @@ import Home from "../views/Home";
 import Login from "../views/Login";
 import Profile from "../views/Profile";
 import Register from "../views/Register";
+import Providers from "../views/Providers";
 
 Vue.use(VueRouter);
 
@@ -27,17 +28,14 @@ const routes = [
       component: Register
    },
    {
+      path: "/providers",
+      name: "providers",
+      component: Providers
+   },
+   {
       path: "/:username",
       name: "profile",
-      component: Profile,
-      /*
-      beforeEnter: (to, from, next) => {
-         if(store.getters["auth/authenticated"]){
-            return next({ name: "home" });
-         }
-         next();
-      }
-      */
+      component: Profile
    }
 ];
 

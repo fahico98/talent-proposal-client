@@ -26,7 +26,8 @@
       data(){
          return {
             noFooterRoutes: [
-               "profile"
+               "profile",
+               "providers"
             ]
          }
       },
