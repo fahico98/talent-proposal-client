@@ -76,7 +76,7 @@
 
 <script>
 
-   import * as validator from "@/util/formRegisterValidation";
+   import * as validator from "@/util/validator";
    import { mapActions, mapGetters } from "vuex";
    import axios from "axios";
    import Vue from "vue";

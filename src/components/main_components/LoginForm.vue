@@ -13,13 +13,11 @@
             <p class="text-color4 pb-3">Inicie sesión con su usuario y contraseña, si aún no tiene una cuenta de acceso puede <router-link href="" :to="{name: 'register'}" class="text-color3">registrase</router-link> con sus datos personales.</p>
 
             <div class="pb-3">
-               <!--<label for="username-field" class="col-form-label text-color4">Nombre de usuario:</label>-->
                <input placeholder="Nombre de usuario" type="text" :class="(labels.username.error == '' || loading) ? '' : 'is-invalid'" class="form-control text-color3 ph-color3" id="username-field" v-model="form.username">
                <p :class="(labels.username.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 13px">{{ (labels.username.error == '' || loading) ? labels.username.default : labels.username.error }}</p>
             </div>
 
             <div class="pb-0">
-               <!--<label for="password-field" class="col-form-label text-color4">Contraseña:</label>-->
                <input placeholder="Contraseña" type="password" :class="(labels.password.error == '' || loading) ? '' : 'is-invalid'" class="form-control text-color3 ph-color3" id="password-field" v-model="form.password">
                <p :class="(labels.password.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 13px">{{ (labels.password.error == '' || loading) ? labels.password.default : labels.password.error }}</p>
             </div>
@@ -51,14 +49,17 @@
       
       data(){
          return {
+
             form: {
                username: "",
                password: ""
             },
+            
             labels: {
                username: { error: "", default: "Ingrese su nombre de usuario." },
                password: { error: "", default: "Ingrese su contraseña." }
             },
+            
             loading: false
          }
       },

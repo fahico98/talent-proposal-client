@@ -1,6 +1,5 @@
 
 <template>
-   
    <div class="px-0">
       
       <div class="row m-0 p-0">
@@ -50,7 +49,6 @@
       </div>
 
    </div>
-
 </template>
 
 <script>

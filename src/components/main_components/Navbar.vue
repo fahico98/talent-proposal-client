@@ -1,8 +1,6 @@
 
 <template>
-   
    <nav class="navbar navbar-expand-lg navbar-light bg-color3">
-      
       <div class="container d-flex justify-content-between">
 
          <a class="navbar-brand d-flex align-items-center" href="#">
@@ -42,9 +40,7 @@
          </div>
 
       </div>
-
    </nav>
-
 </template>
 
 <script>
