@@ -5,9 +5,10 @@ import VueRouter from "vue-router";
 
 import Home from "../views/Home";
 import Login from "../views/Login";
-import Profile from "../views/Profile";
-import Register from "../views/Register";
+import UserProfile from "../views/UserProfile";
+import UsersRegistration from "../views/UsersRegistration";
 import Providers from "../views/Providers";
+import ProvidersRegistration from "../views/ProvidersRegistration";
 
 Vue.use(VueRouter);
 
@@ -23,9 +24,9 @@ const routes = [
       component: Login
    },
    {
-      path: "/register",
-      name: "register",
-      component: Register
+      path: "/registration",
+      name: "users_registration",
+      component: UsersRegistration
    },
    {
       path: "/providers",
@@ -33,9 +34,14 @@ const routes = [
       component: Providers
    },
    {
+      path: "/providers_registration",
+      name: "providers_registration",
+      component: ProvidersRegistration
+   },
+   {
       path: "/:username",
-      name: "profile",
-      component: Profile
+      name: "user_profile",
+      component: UserProfile
    }
 ];
 

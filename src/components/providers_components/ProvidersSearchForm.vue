@@ -61,8 +61,8 @@
                name: "Ingrese el nombre del proveedor.",
                city: "Ingrese el nombre de la ciudad del proveedor.",
                country: "Ingrese el nombre del país del proveedor.",
-               min_general_score: "Ingrese la calificación mínima del proveedor.",
-               max_general_score: "Ingrese la calificación máxima del proveedor.",
+               min_general_score: "Ingrese la calificación general mínima del proveedor.",
+               max_general_score: "Ingrese la calificación general máxima del proveedor.",
             },
             formValidated: true,
             errorLabel: ""
@@ -72,8 +72,10 @@
       methods: {
 
          submit(){
-            this.validate();
-            if(this.formValidated) this.$emit("search", { column: this.column, value: this.value });
+            if(this.value){
+               this.validate();
+               if(this.formValidated) this.$emit("search", { column: this.column, value: this.value });
+            }
          },
 
          validate(){

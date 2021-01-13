@@ -11,7 +11,7 @@
             <ul class="navbar-nav me-auto mb-lg-0">
                
                <li class="nav-item">
-                  <router-link class="nav-link active text-color2" :to="{name: 'profile', params: { username: user.username }}"><b>{{ user.username }}</b></router-link>
+                  <router-link class="nav-link active text-color2" :to="{name: 'user_profile', params: { username: user.username }}"><b>{{ user.username }}</b></router-link>
                </li>
 
                <li class="nav-item">
@@ -31,7 +31,7 @@
                   <router-link class="nav-link active text-color2" :to="{name: 'login'}">Iniciar sesión</router-link>
                </li>
                <li class="nav-item">
-                  <router-link class="nav-link active text-color2" :to="{name: 'register'}">Registrarse</router-link>
+                  <router-link class="nav-link active text-color2" :to="{name: 'users_registration'}">Registrarse</router-link>
                </li>
                <li class="nav-item">
                   <router-link class="nav-link active text-color2" :to="{name: 'home'}">Inicio</router-link>

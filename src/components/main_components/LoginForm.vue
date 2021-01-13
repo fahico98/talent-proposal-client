@@ -10,7 +10,7 @@
 
          <div class="card-body bg-color1 p-4">
 
-            <p class="text-color4 pb-3">Inicie sesión con su usuario y contraseña, si aún no tiene una cuenta de acceso puede <router-link href="" :to="{name: 'register'}" class="text-color3">registrase</router-link> con sus datos personales.</p>
+            <p class="text-color4 pb-3">Inicie sesión con su usuario y contraseña, si aún no tiene una cuenta de acceso puede <router-link href="" :to="{name: 'users_registration'}" class="text-color3">registrase</router-link> con sus datos personales.</p>
 
             <div class="pb-3">
                <input placeholder="Nombre de usuario" type="text" :class="(labels.username.error == '' || loading) ? '' : 'is-invalid'" class="form-control text-color3 ph-color3" id="username-field" v-model="form.username">
@@ -94,7 +94,7 @@
                   this.loading = false;
                   
                   if(this.authenticated){
-                     this.$router.push({name: "profile", params: {username: this.user.username}});
+                     this.$router.push({name: "user_profile", params: {username: this.user.username}});
                   }else{
                      Vue.$toast.open({
                         message: "<b>Error:</b> El nombre de usuario o la contraseña son incorrectos.",

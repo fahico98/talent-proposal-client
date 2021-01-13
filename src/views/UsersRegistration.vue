@@ -5,7 +5,7 @@
       <div class="row">
          
          <div class="col-lg-5">
-            <register-form/>
+            <users-registration-form/>
          </div>
 
          <div class="col-lg-7 d-lg-flex justify-content-lg-end align-items-lg-start d-none d-md-none d-sm-none d-xs-none">
@@ -19,11 +19,11 @@
 
 <script>
 
-   import RegisterForm from "../components/main_components/RegisterForm";
+   import UsersRegistrationForm from "../components/main_components/UsersRegistrationForm";
 
    export default {
       components: {
-         RegisterForm
+         UsersRegistrationForm
       }
    }
 
