@@ -8,6 +8,8 @@ export const alphaRegex = /^[ ñÑ.a-zA-Záéíóú]*$/;
 
 export const alphaNumRegex = /^[-_a-zA-Z0-9]*$/;
 
+export const numericRegex = /^[-+ 0-9]*$/;
+
 export const spanishRegex = /[ñÑáéíóú]/;
 
 export function afterToday(value){
@@ -24,6 +26,10 @@ export function alpha(value){
    
 export function alphaNum(value){
    return (alphaNumRegex.test(String(value).trim())) ? null : "Este campo solo admite caracteres alfanuméricos.";
+}
+
+export function numeric(value){
+   return (numericRegex.test(String(value).trim())) ? null : "Este campo solo admite caracteres numéricos.";
 }
    
 export function required(value){
@@ -47,11 +53,11 @@ export function minLength(value, n){
 }
    
 export async function uniqueEmail(value){
-   let response = await axios.get("user/email_exists/" + value);
+   let response = await axios.get(`user/email_exists/${value}`);
    return (response.data) ? "Este dirección de correo electrónico pertenece a alguien mas." : null;
 }
    
 export async function uniqueUsername(value){
-   let response = await axios.get("user/username_exists/" + value);
+   let response = await axios.get(`user/username_exists/${value}`);
    return (response.data) ? "Este nombre de usuario pertenece a alguien mas." : null;
 }

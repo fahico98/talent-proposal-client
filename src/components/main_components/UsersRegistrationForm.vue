@@ -78,7 +78,6 @@
 
    import * as validator from "@/util/validator";
    import { mapActions, mapGetters } from "vuex";
-   import axios from "axios";
    import Vue from "vue";
 
    export default {
@@ -121,44 +120,31 @@
       methods: {
 
          ...mapActions({
-            login: "auth/login"
+            registration: "auth/registration"
          }),
 
          async submit(){
             
             this.loading = true;
             await this.validation();
-
+            
             if(this.formValidated){
 
-               let response = await axios.post("auth/create", this.form);
+               await this.registration(this.form).then(() => {
 
-               if(response.data.status == 201){
+                  this.loading = false;
 
-                  await this.login({ "username": this.form.username, "password": this.form.password }).then(() => {
-                     
-                     this.loading = false;
-
-                     if(this.authenticated){
-                        this.$router.push({name: "profile", params: {username: this.user.username}});
-                     }else{
-                        Vue.$toast.open({
-                           message: "<b>Error:</b> Algo salió mal.",
-                           type: "error",
-                           position: "bottom",
-                           duration: 5000
-                        });
-                     }
-                  });
-
-               }else{
-                  Vue.$toast.open({
-                     message: "<b>Error:</b> Algo salió mal.",
-                     type: "error",
-                     position: "bottom",
-                     duration: 5000
-                  });
-               }
+                  if(this.authenticated){
+                     this.$router.push({name: "user_profile", params: {username: this.user.username}});
+                  }else{
+                     Vue.$toast.open({
+                        message: "<b>Error:</b> Ha ocurrido un error durante el registro.",
+                        type: "error",
+                        position: "bottom",
+                        duration: 5000
+                     });
+                  }
+               });
             }
 
             this.loading = false;
@@ -203,7 +189,9 @@
             this.formValidated = true;
 
             for(let label in this.labels){
-               if(String(this.labels[label].error) !== "") this.formValidated = false; break;
+               if(String(this.labels[label].error) !== ""){
+                  this.formValidated = false; break;
+               }
             }
          },
 

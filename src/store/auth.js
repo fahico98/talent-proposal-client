@@ -34,6 +34,14 @@ export default {
    
    actions: {
 
+      async registration({ dispatch }, form){
+         await axios.post("auth/create", form).then((response) => {
+            return (response.data.status == 422)
+               ? response.data
+               : dispatch("attempt", response.data.token);
+         });
+      },
+
       async login({ dispatch }, credentials){
          await axios.post("auth/login", credentials).then((response) => {
             return (response.data.error == "Unauthorized" && response.data.status == 401)

@@ -142,3 +142,16 @@ input.ph-color3:-ms-input-placeholder { /* Internet Explorer 10-11 */
 input.ph-color3::-ms-input-placeholder { /* Microsoft Edge */
    color: #0077c0;
 }
+
+textarea.ph-color3::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+   color: #0077c0;
+   opacity: 1; /* Firefox */
+}
+
+textarea.ph-color3:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: #0077c0;
+}
+
+textarea.ph-color3::-ms-input-placeholder { /* Microsoft Edge */
+   color: #0077c0;
+}
