@@ -10,7 +10,8 @@ import 'vue-toast-notification/dist/theme-default.css';
 
 require("@/store/subscriber");
 
-axios.defaults.baseURL = "http://homestead.test/api/";
+//axios.defaults.baseURL = "http://homestead.test/api/";
+axios.defaults.baseURL = "http://serene-crag-51271.herokuapp.com/api";
 
 Vue.config.productionTip = false;
 
