@@ -10,12 +10,16 @@
 
             <div class="my-4">
 
-               <div class="mb-2 p-0">
+               <div class="mb-2 p-0" v-if="provider.general_score != null">
                   <h4 class="text-color4">Calificación general</h4>
                   <stars-rating :score="provider.general_score" :size="'l'"/>
                </div>
 
-               <div class=""></div>
+               <div class="mb-1 p-0" v-else>
+                  <h5 class="text-color4">Este proveedor aún no ha sido calificado</h5>
+               </div>
+
+               <!--<div class=""></div>-->
 
             </div>
 

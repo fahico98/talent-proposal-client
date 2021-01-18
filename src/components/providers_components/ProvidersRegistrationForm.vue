@@ -28,12 +28,12 @@
             </div>
 
             <div class="mb-3">
-               <input type="text" :class="(labels.address.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Dirección" v-model.trim="form.address">
+               <input type="text" :class="(labels.address.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Dirección*" v-model.trim="form.address">
                <p :class="(labels.address.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.address.error == "" || loading) ? labels.address.default : labels.address.error }}</p>
             </div>
 
             <div class="mb-3">
-               <input type="text" :class="(labels.phone_number.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Teléfono de contacto" v-model.trim="form.phone_number">
+               <input type="text" :class="(labels.phone_number.error == '' || loading) ? '' : 'is-invalid'" class="form-control form-control-sm text-color3 ph-color3" placeholder="Teléfono de contacto*" v-model.trim="form.phone_number">
                <p :class="(labels.phone_number.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.phone_number.error == "" || loading) ? labels.phone_number.default : labels.phone_number.error }}</p>
             </div>
 
@@ -47,24 +47,26 @@
                <p :class="(labels.description.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">{{ (labels.description.error == "" || loading) ? labels.description.default : labels.description.error }}</p>
             </div>
 
-            <!--<hr style="border-top: 1px solid" class="py-0 my-4 mx-0">-->
-
             <div class="mb-3">
 
                <p class="text-color3 mb-2">Aspectos</p>
-               
+
                <div class="list-group" style="overflow-y: scroll; width: 100%; height: 200px; border-top: 0.2px solid #dfdfdf; border-bottom: 0.2px solid #dfdfdf; border-right: 0.2px solid #dfdfdf;">
 
-                  <label class="list-group-item" v-for="(feature, index) in features" :key="feature.id" style="cursor: pointer;">
-                     <input class="form-check-input me-2" type="checkbox" v-model="featuresSelected[index]"><span class="text-color3" style="font-size: 14px;">{{ feature.name }}</span><p class="text-muted mt-1 mb-0" style="font-size: 12px">{{ feature.description }}</p>
+                  <label class="list-group-item" v-for="feature in features" :key="feature.id" style="cursor: pointer;">
+                     <input class="form-check-input me-2" type="checkbox" :value="feature" v-model="selectedFeatures"><span class="text-color3" style="font-size: 14px;">{{ feature.name }}</span><p class="text-muted mt-1 mb-0" style="font-size: 12px">{{ feature.description }}</p>
                   </label>
 
                </div>
 
+               <p class="mt-1 mb-2" style="font-size: 12px"><a href="#" class="text-color3" @click.prevent="allFeaturesSelected ? unselectAllFeatures() : selectAllFeatures()">{{ (allFeaturesSelected) ? "Quitar todos" : "Seleccionar todos" }}</a></p>
+
                <p :class="(labels.features.error == '' || loading) ? 'text-muted' : 'text-danger'" class="mt-1" style="font-size: 12px">
-                  <span v-if="labels.features.error == '' || loading">Seleccione los aspectos a traves de los cuales el proveedor podrá ser calificado, estos sapectos definiran la forma en la que el proveedor obtiene su puntaje general. Tiene la opción de <a href="#" class="text-color3">definir un aspecto nuevo</a> si los que están en la lista no describen de que forma quiere que el proveedor sea evaluado.</span>
+                  <span v-if="labels.features.error == '' || loading">Seleccione los aspectos a traves de los cuales el proveedor será calificado, estos sapectos definiran la forma en la que el proveedor obtiene su puntaje general. Tiene la opción de <a href="#" class="text-color3" @click="newFeatureModalFormOpen = true" data-bs-target="#newFeatureModalForm" data-bs-toggle="modal">definir un aspecto nuevo</a> si los que están en la lista no describen de que forma quiere que el proveedor sea evaluado.</span>
                   <span v-else>{{ labels.features.error }}</span>
                </p>
+
+               <new-feature-modal-form @submit="newFeatureModalFormSubmit($event)" @reset-form="newFeatureModalFormReset" :open-event="newFeatureModalFormOpen"/>
 
             </div>
 
@@ -88,18 +90,25 @@
 
 <script>
 
+   import NewFeatureModalForm from "./NewFeatureModalForm";
    import * as validator from "@/util/validator";
    import axios from "axios";
-   //import Vue from "vue";
+   import Vue from "vue";
 
    export default {
+
+      components: {
+         NewFeatureModalForm
+      },
       
       data(){
          return {
             features: [],
-            featuresSelected: [],
+            selectedFeatures: [],
             loading: true,
             formValidated: true,
+            newFeatureModalFormOpen: false,
+            allFeaturesSelected: false,
             form: {
                name: "",
                country: "",
@@ -122,11 +131,15 @@
          }
       },
 
+      watch: {
+         selectedFeatures(newArray){
+            this.allFeaturesSelected = newArray.length == this.features.length;
+         }
+      },
+
       async created(){
-         await axios.get("feature/").then((response) => {
+         await axios.get("feature").then((response) => {
             this.features = response.data;
-            this.featuresSelected = new Array(response.data.length);
-            this.featuresSelected.fill(false);
             this.loading = false;
          })
          .catch((error) => {
@@ -142,10 +155,51 @@
             await this.validation();
 
             if(this.formValidated){
-               console.log("Submit !");
+               await axios.post("provider/create", {form: this.form, selectedFeatures: this.selectedFeatures})
+                  .then((response) => {
+
+                     if(response.data.status == 422){
+                        Vue.$toast.open({
+                           message: "<b>Error:</b> Ha ocurrido un error durante el registro.",
+                           type: "error",
+                           position: "bottom",
+                           duration: 5000
+                        });
+
+                     }else{
+                        Vue.$toast.open({
+                           message: "El proveedor ha sido registrado exitosamente.",
+                           type: "info",
+                           position: "bottom",
+                           duration: 7500
+                        });
+                        this.$router.push({name: "providers"});
+                     }
+                  })
+                  .catch((error) => {
+                     console.log(`Error: ${error}`);
+                  });
             }
 
             this.loading = false;
+         },
+
+         selectAllFeatures(){
+            this.selectedFeatures = [...this.features];
+            this.allFeaturesSelected = true;
+         },
+
+         unselectAllFeatures(){
+            this.selectedFeatures = [];
+            this.allFeaturesSelected = false;
+         },
+
+         newFeatureModalFormSubmit(feature){
+            if(feature)this.features.push(feature);
+         },
+
+         newFeatureModalFormReset(){
+            this.newFeatureModalFormOpen = false;
          },
 
          clear(){
@@ -183,7 +237,9 @@
             this.formValidated = true;
 
             for(let label in this.labels){
-               if(String(this.labels[label].error) !== "") this.formValidated = false; break;
+               if(String(this.labels[label].error) !== ""){
+                  this.formValidated = false; break;
+               }
             }
          },
 
@@ -239,30 +295,32 @@
             
             let buffer;
 
+            buffer = validator.required(this.form.address);
+            this.labels.address.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
             buffer = validator.maxLength(this.form.address, 80);
             this.labels.address.error = (buffer != null) ? buffer : "";
          },
 
          phoneNumberValidation(){
             
-            if(String(this.form.phone_number).trim() != ""){
+            let buffer;
 
-               let buffer;
-   
-               buffer = validator.numeric(this.form.phone_number);
-               this.labels.phone_number.error = (buffer != null) ? buffer : "";
-               if(buffer != null) return;
-   
-               buffer = validator.minLength(this.form.phone_number, 4);
-               this.labels.phone_number.error = (buffer != null) ? buffer : "";
-               if(buffer != null) return;
-   
-               buffer = validator.maxLength(this.form.phone_number, 20);
-               this.labels.phone_number.error = (buffer != null) ? buffer : "";
-            
-            }else{
-               this.labels.phone_number.error = "";
-            }
+            buffer = validator.required(this.form.phone_number);
+            this.labels.phone_number.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.numeric(this.form.phone_number);
+            this.labels.phone_number.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.minLength(this.form.phone_number, 4);
+            this.labels.phone_number.error = (buffer != null) ? buffer : "";
+            if(buffer != null) return;
+
+            buffer = validator.maxLength(this.form.phone_number, 20);
+            this.labels.phone_number.error = (buffer != null) ? buffer : "";
          },
 
          async emailValidation(){
