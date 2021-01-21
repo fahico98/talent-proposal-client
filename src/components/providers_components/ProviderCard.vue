@@ -5,7 +5,7 @@
 
          <div>
 
-            <h5 class="text-color4 mb-0" style="cursor: pointer" @click.prevent="">{{ provider.name }}</h5>
+            <h5 class="text-color4 mb-0" style="cursor: pointer" @click.prevent="goToProfile">{{ provider.name }}</h5>
             <p class="text-color3 mb-0">{{ provider.city }} - {{ provider.country }}.</p>
 
             <div class="my-4">
@@ -35,7 +35,7 @@
             </a>
             
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-               <li><a class="dropdown-item" href="#" @click.prevent="">Ver perfil</a></li>
+               <li><a class="dropdown-item" href="#" @click.prevent="goToProfile">Ver perfil</a></li>
                <li><a class="dropdown-item" href="#" @click.prevent="">Calificaciones</a></li>
                <li><a class="dropdown-item" href="#" @click.prevent="">Calificar</a></li>
                <li><a class="dropdown-item" href="#" @click.prevent="">Editar</a></li>
@@ -92,11 +92,19 @@
       },
 
       methods: {
+
          round(value){
             let num = Number(parseFloat(value).toFixed(2));
             let str = num.toString();
             if(str.length == 1) str += ".00";
             return str;
+         },
+
+         goToProfile(){
+            this.$router.push({
+               name: "provider_profile",
+               params: { provider_id: this.provider.id }
+            });
          }
       }
    }

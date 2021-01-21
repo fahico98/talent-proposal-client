@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "vue": "^2.6.11",
     "vue-infinite-loading": "^2.4.5",
+    "vue-round-slider": "^1.0.1",
     "vue-router": "^3.2.0",
     "vue-toast-notification": "^0.6.0",
     "vuex": "^3.4.0"

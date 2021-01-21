@@ -1,6 +1,5 @@
 
 <template>
-   
    <div class="container my-5 pb-5">
       <div class="row">
          
@@ -14,7 +13,6 @@
       
       </div>
    </div>
-
 </template>
 
 <script>

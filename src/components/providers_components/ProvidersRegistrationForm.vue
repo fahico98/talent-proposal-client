@@ -210,6 +210,7 @@
             this.form.phone_number = "";
             this.form.email = "";
             this.form.description = "";
+            this.unselectAllFeatures();
             this.resetValidation();
          },
 

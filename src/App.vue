@@ -13,6 +13,7 @@
 
 <script>
 
+   import "../public/styles.css";
    import Navbar from "@/components/main_components/Navbar";
    import MainFooter from "@/components/main_components/MainFooter";
 
@@ -27,7 +28,8 @@
          return {
             noFooterRoutes: [
                "profile",
-               "providers"
+               "providers",
+               "provider_profile"
             ]
          }
       },
