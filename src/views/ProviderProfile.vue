@@ -10,7 +10,7 @@
                </div>
             </div>
 
-            <div class="col-lg-4 ps-0 pe-3" v-else>
+            <div class="col-lg-4 ps-0 pe-3" v-else-if="provider">
 
                <h2 class="text-color4 mb-0">{{ provider.name }}</h2>
                <p class="mt-0 mb-2" style="font-size: 14px" v-if="provider.description != ''">{{ provider.description }}</p>
@@ -18,6 +18,8 @@
                <p class="text-muted mt-0 mb-3" style="font-size: 12px" v-if="provider.general_score == null">Este proveedor aún no ha sido calificado.</p>
 
                <stars-rating class="mt-0 mb-2" :score="provider.general_score" :size="'l'" v-else/>
+
+               <p v-if="provider.review_count == 1" class="card-text text-dark mb-0 mb-3" style="font-size: 12px">Una calificación.</p><p v-else-if="provider.review_count" class="card-text text-dark mb-0 mb-3" style="font-size: 12px">{{ provider.review_count }} calificaciones.</p>
 
                <hr style="border-top: 1px solid" class="py-0 mb-3 mt-2">
 
@@ -35,17 +37,17 @@
 
                <div class="d-flex align-items-center">
 
-                  <router-link :to="{name: 'provider_reviews', params: {provider: provider, provider_id: provider.id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-list-stars" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"/><path d="M2.242 2.194a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.256-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53z"/></svg><span class="ms-1">Calificaciones</span></router-link>
+                  <router-link :to="{name: 'provider_reviews', params: {provider_id: $route.params.provider_id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-list-stars" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5z"/><path d="M2.242 2.194a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.256-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53zm0 4a.27.27 0 0 1 .516 0l.162.53c.035.115.14.194.258.194h.551c.259 0 .37.333.164.493l-.468.363a.277.277 0 0 0-.094.3l.173.569c.078.255-.213.462-.423.3l-.417-.324a.267.267 0 0 0-.328 0l-.417.323c-.21.163-.5-.043-.423-.299l.173-.57a.277.277 0 0 0-.094-.299l-.468-.363c-.206-.16-.095-.493.164-.493h.55a.271.271 0 0 0 .259-.194l.162-.53z"/></svg><span class="ms-1">Calificaciones</span></router-link>
 
-                  <router-link :to="{name: 'provider_features', params: {provider: provider, provider_id: provider.id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg><span class="ms-1">Aspectos</span></router-link>
+                  <router-link :to="{name: 'provider_features', params: {provider_id: $route.params.provider_id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16"><path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/><path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8zm0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5zm-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zM4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0zm0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/></svg><span class="ms-1">Aspectos</span></router-link>
 
-                  <router-link v-if="!reviewed" :to="{name: 'qualify_provider', params: {provider: provider, provider_id: provider.id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16"><path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/></svg><span class="ms-1">Calificar</span></router-link>
+                  <router-link v-if="!reviewed" :to="{name: 'qualify_provider', params: {provider_id: $route.params.provider_id}}" class="d-flex align-items-end mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16"><path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/></svg><span class="ms-1">Calificar</span></router-link>
 
                </div>
 
                <hr style="border-top: 1px solid" class="my-0 py-0 mt-2 mb-3 mx-0">
 
-               <router-view :key="$route.path" :features="features"/>
+               <router-view :key="$route.path"/>
 
             </div>
 
@@ -57,8 +59,7 @@
 <script>
 
    import StarsRating from "../components/util_components/stars_rating/StarsRating";
-   import { mapGetters } from "vuex";
-   import axios from "axios";
+   import { mapGetters, mapActions } from "vuex";
 
    export default {
 
@@ -68,32 +69,30 @@
       
       data(){
          return {
-            loading: true,
-            provider: {
-               name: "",
-               country: "",
-               city: "",
-               address: "",
-               phone_number: "",
-               email: "",
-               description: "",
-               created_at: "",
-               updated_at: "",
-               reviews: []
-            }
+            loading: true
          }
+      },
+
+      methods: {
+         ...mapActions({
+            loadProvider: "provider/load"
+         })
       },
 
       computed:{
 
          ...mapGetters({
-            user: "auth/user"
+            user: "auth/user",
+            provider: "provider/provider"
          }),
 
          reviewed(){
-            return (this.provider.reviews.length)
-               ? this.provider.reviews.some((review) => { return review.user.id == this.user.id })
-               : false;
+            if(this.provider){
+               return (this.provider.reviews.length)
+                  ? this.provider.reviews.some((review) => { return review.user_id == this.user.id })
+                  : false;
+            }
+            return false;
          },
 
          features(){
@@ -102,13 +101,9 @@
       },
 
       async created(){
-         await axios.get(`provider/show/${this.$route.params.provider_id}`).then((response) => {
-            this.provider = response.data;
-            this.loading = false;
-         })
-         .catch((error) => {
-            console.log(`Error: ${error}`);
-         });
+         this.loading = true;
+         await this.loadProvider(this.$route.params.provider_id);
+         this.loading = false;
       }
    }
 </script>

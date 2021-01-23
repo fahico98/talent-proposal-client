@@ -3,12 +3,18 @@
    <div class="m-0 p-0 container-fluid">
       <div class="row m-0 p-0">
 
-         <div class="m-0 p-0" v-if="features.length">
-            <p v-for="feature in features" :key="feature.id">{{ feature.name }}</p>
+         <div v-if="!provider" class="d-flex justify-content-center align-items-center" style="height: 100px; width: 100%;">
+            <div class="spinner-border text-color3 m-0 p-0" style="width: 30px; height: 30px;" role="status">
+               <span class="visually-hidden">Cargando...</span>
+            </div>
+         </div>
+
+         <div class="m-0 p-0" v-else-if="!provider.features.length">
+            <p class="fs-5 text-color3 mt-3">Este proveedor no tiene aspectos asignados aún !</p>
          </div>
 
          <div class="m-0 p-0" v-else>
-            <p class="fs-5 text-color3 mt-3">Este proveedor no tiene aspectos asignados aún !</p>
+            <p v-for="feature in provider.features" :key="feature.id">{{ feature.name }}</p>
          </div>
 
       </div>
@@ -17,41 +23,23 @@
 
 <script>
 
+   import { mapGetters } from "vuex";
+
    export default {
 
-      props: {
-         features: {
-            type: Array,
-            required: true,
-            default(){ return [] }
-         }
-      },
-      
       data(){
          return {
-            infiniteId: +new Date()
+            
          }
       },
 
       methods: {
-         /*
-         async loadFeatures($state){
-            await axios.get(`feature/provider_features/${this.$route.params.provider_id}`).then((response) => {
+      },
 
-               if(response.data.length){
-                  this.features = this.features.concat(response.data);
-                  $state.loaded();
-                  if(response.data.length) $state.complete();
-
-               }else{
-                  $state.complete();
-               }
-            })
-            .catch((error) => {
-               console.log(`Error: ${error}`);
-            });
-         }
-         */
+      computed:{
+         ...mapGetters({
+            provider: "provider/provider"
+         }),
       }
    }
 </script>

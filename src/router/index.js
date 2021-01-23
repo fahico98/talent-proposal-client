@@ -1,7 +1,7 @@
 
 import Vue from "vue";
 import VueRouter from "vue-router";
-//import store from "@/store";
+import store from "@/store";
 
 import Home from "../views/Home";
 
@@ -37,21 +37,25 @@ const routes = [
       path: "/provider/:provider_id",
       name: "provider_profile",
       redirect: { name: "provider_reviews" },
+      meta: { requireProvider: true },
       component: () => import(/* webpackChunkName: "providerProfile" */ "../views/ProviderProfile"),
       children: [
          {
             path: "reviews",
             name: "provider_reviews",
+            meta: { requireProvider: true },
             component: () => import(/* webpackChunkName: "providerReviews" */ "@/components/providers_components/Reviews")
          },
          {
             path: "features",
             name: "provider_features",
+            meta: { requireProvider: true },
             component: () => import(/* webpackChunkName: "providerFeatures" */ "@/components/providers_components/Features")
          },
          {
             path: "qualify",
             name: "qualify_provider",
+            meta: { requireProvider: true },
             component: () => import(/* webpackChunkName: "providerQualifyProvider" */ "@/components/providers_components/QualifyProvider")
          }
       ]
@@ -67,6 +71,24 @@ const router = new VueRouter({
    mode: "history",
    base: process.env.BASE_URL,
    routes
+});
+
+/**
+ * Global guard.
+ */
+router.beforeEach((to, from, next) => {
+
+   if(to.meta.requireProvider){
+      let provider = store.getters["provider/provider"];
+      if(provider){
+         if(provider.id != to.params.provider_id) store.dispatch("provider/load", to.params.provider_id);
+      }
+
+   }else{
+      store.dispatch("provider/remove");
+   }
+
+   next();
 });
 
 export default router;

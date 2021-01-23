@@ -11,15 +11,18 @@
             <div class="my-4">
 
                <div class="mb-2 p-0" v-if="provider.general_score != null">
+                  
                   <h4 class="text-color4">Calificación general</h4>
+                  
                   <stars-rating :score="provider.general_score" :size="'l'"/>
+
+                  <p v-if="provider.review_count == 1" class="card-text text-dark mb-0 mt-2" style="font-size: 12px">Una calificación.</p><p v-else-if="provider.review_count" class="card-text text-dark mb-0 mt-2" style="font-size: 12px">{{ provider.review_count }} calificaciones.</p>
+               
                </div>
 
                <div class="mb-1 p-0" v-else>
                   <h5 class="text-color4">Este proveedor aún no ha sido calificado</h5>
                </div>
-
-               <!--<div class=""></div>-->
 
             </div>
 

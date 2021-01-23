@@ -1,20 +1,26 @@
 
 <template>
    <div>
-      <h1>Reviews</h1>
+      <h1>reviews</h1>
    </div>
 </template>
 
 <script>
 
-   //import axios from "axios";
+   import { mapGetters } from "vuex";
 
    export default {
       
       data(){
          return {
-            reviews: []
+            
          }
+      },
+
+      computed:{
+         ...mapGetters({
+            provider: "provider/provider"
+         }),
       },
 
       async created(){
