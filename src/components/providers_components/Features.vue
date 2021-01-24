@@ -10,11 +10,17 @@
          </div>
 
          <div class="m-0 p-0" v-else-if="!provider.features.length">
-            <p class="fs-5 text-color3 mt-3">Este proveedor no tiene aspectos asignados aún !</p>
+            <p class="fs-5 text-color3 mt-3">Este proveedor no tiene aspectos asignados aún!</p>
          </div>
 
          <div class="m-0 p-0" v-else>
-            <p v-for="feature in provider.features" :key="feature.id">{{ feature.name }}</p>
+            <div class="card border-color3 bg-color1 my-2" v-for="feature in provider.features" :key="feature.id">
+               <div class="card-body">
+                  <h5 class="text-color4 mb-1">{{ feature.name }}</h5>
+                  <p class="text-color4 mb-2" style="font-size: 14px">{{ feature.description }}</p>
+                  <stars-rating :score="feature.general_score" :size="'m'" v-if="feature.general_score"/>
+               </div>
+            </div>
          </div>
 
       </div>
@@ -23,9 +29,14 @@
 
 <script>
 
+   import StarsRating from "../util_components/stars_rating/StarsRating";
    import { mapGetters } from "vuex";
 
    export default {
+
+      components: {
+         StarsRating
+      },
 
       data(){
          return {
