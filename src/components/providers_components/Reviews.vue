@@ -9,7 +9,7 @@
             </div>
          </div>
 
-         <div class="m-0 p-0" v-else-if="!provider.reviews.length">
+         <div class="m-0 p-0 d-flex justify-content-center" v-else-if="!provider.reviews.length">
             <p class="fs-5 text-color3 mt-3">Este proveedor aún no ha sido calificado!</p>
          </div>
 
@@ -17,11 +17,11 @@
             <div class="card border-color3 bg-color1 my-2" v-for="review in provider.reviews" :key="review.id">
                <div class="card-body">
 
-                  <p class="text-color4 mb-1 fw-bold">{{ review.user.firstname }}&nbsp;{{ review.user.lastname }}</p>
+                  <h5 class="text-color4 mb-1" style="cursor: pointer" @click.prevent="goToProfile(review.user.username)">{{ review.user.firstname }}&nbsp;{{ review.user.lastname }}</h5>
 
                   <stars-rating class="mb-2" :score="review.general_score" :size="'m'"/>
 
-                  <p class="card-text text-muted my-0" style="font-size: 12px">{{ humanCreationDate(review.created_at) }}.</p>
+                  <p class="card-text text-muted my-0" style="font-size: 12px">Hace {{ humanCreationDate(review.created_at) }}.</p>
 
                </div>
             </div>
@@ -52,8 +52,16 @@
       },
 
       methods: {
+
          humanCreationDate(date){
             return formatDistanceToNow(new Date(date), {locale: esLocale});
+         },
+
+         goToProfile(username){
+            this.$router.push({
+               name: "user_profile",
+               params: { username: username }
+            });
          }
       },
 

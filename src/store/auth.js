@@ -29,6 +29,10 @@ export default {
 
       SET_USER(state, user){
          state.user = user;
+      },
+
+      INCREMENT_REVIEW_COUNT(state){
+         state.user.review_count++;
       }
    },
    
@@ -73,6 +77,10 @@ export default {
             .catch((error) => {
                console.log(`Error: ${error}`);
             });
+      },
+
+      incrementUserReviewCount({ commit }){
+         commit("INCREMENT_REVIEW_COUNT");
       }
    }
 };

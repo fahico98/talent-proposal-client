@@ -9,8 +9,8 @@
             </div>
          </div>
 
-         <div class="m-0 p-0" v-else-if="!provider.features.length">
-            <p class="fs-5 text-color3 mt-3">Este proveedor no tiene aspectos asignados aún!</p>
+         <div class="m-0 p-0 d-flex justify-content-center" v-else-if="!provider.features.length">
+            <p class="fs-5 text-color3 mt-3">Este proveedor aún no tiene aspectos asignados!</p>
          </div>
 
          <div class="m-0 p-0" v-else>

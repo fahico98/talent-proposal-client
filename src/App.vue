@@ -29,7 +29,8 @@
             noFooterRoutes: [
                "profile",
                "providers",
-               "provider_profile"
+               "provider_profile",
+               "user_profile"
             ]
          }
       },

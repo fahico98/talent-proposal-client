@@ -8,6 +8,7 @@
          </a>
          
          <div v-if="authenticated">
+
             <ul class="navbar-nav me-auto mb-lg-0">
                
                <li class="nav-item">

@@ -84,7 +84,8 @@
       methods: {
 
          ...mapActions({
-            refreshProvider: "provider/refresh"
+            refreshProvider: "provider/refresh",
+            incrementUserReviewCount: "auth/incrementUserReviewCount"
          }),
 
          async submit(){
@@ -104,6 +105,7 @@
                .then(async (response) => {
                   if(response.data.status == 200){
                      await this.refreshProvider();
+                     this.incrementUserReviewCount();
                      Vue.$toast.open({
                         message: "La calificación se ha registrado satisfactoriamente.",
                         type: "info",
