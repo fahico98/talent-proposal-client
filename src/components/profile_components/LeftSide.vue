@@ -54,7 +54,7 @@
 
       </div>
 
-      <div class="col-lg-4 d-flex justify-content-center align-items-center" style="height: 200px;" v-else>
+      <div class="col-lg-4 d-flex justify-content-center align-items-center" style="height: 200px; width: 100%;" v-else>
          <div class="spinner-border text-color3 m-0 p-0" style="width: 30px; height: 30px;" role="status">
             <span class="visually-hidden">Cargando...</span>
          </div>

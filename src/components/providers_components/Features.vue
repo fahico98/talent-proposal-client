@@ -3,18 +3,12 @@
    <div class="m-0 p-0 container-fluid">
       <div class="row m-0 p-0">
 
-         <div v-if="!provider" class="d-flex justify-content-center align-items-center" style="height: 100px; width: 100%;">
-            <div class="spinner-border text-color3 m-0 p-0" style="width: 30px; height: 30px;" role="status">
-               <span class="visually-hidden">Cargando...</span>
-            </div>
-         </div>
-
-         <div class="m-0 p-0 d-flex justify-content-center" v-else-if="!provider.features.length">
+         <div class="m-0 p-0 d-flex justify-content-center" v-if="features.length == 0">
             <p class="fs-5 text-color3 mt-3">Este proveedor aún no tiene aspectos asignados!</p>
          </div>
-
+         
          <div class="m-0 p-0" v-else>
-            <div class="card border-color3 bg-color1 my-2" v-for="feature in provider.features" :key="feature.id">
+            <div class="card border-color3 bg-color1 my-2" v-for="feature in features" :key="feature.id">
                <div class="card-body">
                   <h5 class="text-color4 mb-1">{{ feature.name }}</h5>
                   <p class="text-color4 mb-2" style="font-size: 14px">{{ feature.description }}</p>
@@ -30,7 +24,6 @@
 <script>
 
    import StarsRating from "../util_components/stars_rating/StarsRating";
-   import { mapGetters } from "vuex";
 
    export default {
 
@@ -38,19 +31,18 @@
          StarsRating
       },
 
-      data(){
-         return {
-            
+      props: {
+         features: {
+            type: Array,
+            required: true,
+            default(){ return [] }
          }
       },
 
-      methods: {
-      },
-
-      computed:{
-         ...mapGetters({
-            provider: "provider/provider"
-         }),
+      watch: {
+         features(newFeatures){
+            if(newFeatures.length) this.loading = false;
+         }
       }
    }
 </script>

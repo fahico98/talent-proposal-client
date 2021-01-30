@@ -18,6 +18,10 @@ export default {
 
       user(state){
          return state.user;
+      },
+
+      isAdmin(state){
+         return state.user.role_id == 2;
       }
    },
 

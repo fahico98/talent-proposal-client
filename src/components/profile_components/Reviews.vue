@@ -4,8 +4,14 @@
 
       <div v-if="reviews.length">
          <div v-for="review in reviews" :key="review.id" class="card border-color3 bg-color1 my-2">
-            <div class="card-body d-flex justify-content-between">
-               {{ review.general_score }}
+            <div class="card-body">
+               
+               <h5 class="text-color4 mb-1" style="cursor: pointer" @click.prevent="goToProviderProfile(review.provider.id)">{{ review.provider.name }}</h5>
+
+               <stars-rating class="mb-2" :score="review.general_score" :size="'m'"/>
+
+               <p class="card-text text-muted my-0" style="font-size: 12px">Hace {{ humanCreationDate(review.created_at) }}.</p>
+            
             </div>
          </div>
       </div>
@@ -24,12 +30,16 @@
 
 <script>
 
+   import esLocale from 'date-fns/locale/es';
+   import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+   import StarsRating from "../util_components/stars_rating/StarsRating";
    import InfiniteLoading from "vue-infinite-loading";
    import axios from "axios";
 
    export default {
 
       components: {
+         StarsRating,
          InfiniteLoading
       },
 
@@ -45,6 +55,7 @@
          async $route(to, from) {
             if(to.params.username != from.params.username){
                this.reviews = [];
+               this.currentPage = 0;
                this.infiniteId += 1;
             }
          }
@@ -61,7 +72,7 @@
                if(response.data.length){
                   this.reviews = this.reviews.concat(response.data);
                   $state.loaded();
-                  if(response.data.length < 5) $state.complete();
+                  if(response.data.length < 10) $state.complete();
 
                }else{
                   $state.complete();
@@ -71,6 +82,17 @@
                console.log(`Error: ${error}`);
             });
          },
+
+         goToProviderProfile(provider_id){
+            this.$router.push({
+               name: "provider_profile",
+               params: { provider_id: provider_id }
+            });
+         },
+
+         humanCreationDate(date){
+            return formatDistanceToNow(new Date(date), {locale: esLocale});
+         }
       }
    }
 

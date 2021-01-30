@@ -95,6 +95,9 @@
                      this.$router.push({name: "user_profile", params: {username: this.user.username}});
 
                   }else{
+
+                     this.loading = false;
+                     
                      Vue.$toast.open({
                         message: "<b>Error:</b> El nombre de usuario o la contraseña son incorrectos.",
                         type: "error",
@@ -103,8 +106,6 @@
                      });
                   }
                });
-
-               this.loading = false;
             }
          },
 

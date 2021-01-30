@@ -4,13 +4,7 @@
       <div class="container-fluid m-0 p-0">
          <div class="row m-0 p-0 w-100">
 
-            <div class="col-lg-4 d-flex justify-content-center align-items-center" style="height: 200px;" v-if="loading">
-               <div class="spinner-border text-color3 m-0 p-0" style="width: 30px; height: 30px;" role="status">
-                  <span class="visually-hidden">Cargando...</span>
-               </div>
-            </div>
-
-            <div class="col-lg-4 ps-0 pe-3" v-else-if="provider">
+            <div class="col-lg-4 ps-0 pe-3" v-if="provider">
 
                <h2 class="text-color4 mb-0">{{ provider.name }}</h2>
                <p class="mt-0 mb-2" style="font-size: 14px" v-if="provider.description != ''">{{ provider.description }}</p>
@@ -33,6 +27,12 @@
 
             </div>
 
+            <div class="col-lg-4 d-flex justify-content-center align-items-center" style="height: 200px;" v-else>
+               <div class="spinner-border text-color3 m-0 p-0" style="width: 30px; height: 30px;" role="status">
+                  <span class="visually-hidden">Cargando...</span>
+               </div>
+            </div>
+
             <div class="col-lg-8 px-0">
 
                <div class="d-flex align-items-center">
@@ -47,7 +47,7 @@
 
                <hr style="border-top: 1px solid" class="my-0 py-0 mt-2 mb-3 mx-0">
 
-               <router-view :key="$route.path"/>
+               <router-view :key="$route.path" :features="features" @updateProvider="updateProvider($event)"/>
 
             </div>
 
@@ -59,7 +59,7 @@
 <script>
 
    import StarsRating from "../components/util_components/stars_rating/StarsRating";
-   import { mapGetters, mapActions } from "vuex";
+   import axios from "axios";
 
    export default {
 
@@ -68,42 +68,47 @@
       },
       
       data(){
-         return {
-            loading: true
+         return { provider: null }
+      },
+
+      computed:{
+         
+         reviewed(){
+            return this.provider ? this.provider.reviewed : false;
+         },
+
+         features(){
+            return this.provider ? this.provider.features : null;
+         }
+      },
+
+      watch: {
+         async $route(to, from) {
+            if(to.params.provider_id != from.params.provider_id){
+               this.provider = null;
+               this.provider = await this.loadProvider(to.params.provider_id);
+            }
          }
       },
 
       methods: {
-         ...mapActions({
-            loadProvider: "provider/load"
-         })
-      },
 
-      computed:{
-
-         ...mapGetters({
-            user: "auth/user",
-            provider: "provider/provider"
-         }),
-
-         reviewed(){
-            if(this.provider){
-               return (this.provider.reviews.length)
-                  ? this.provider.reviews.some((review) => { return review.user_id == this.user.id })
-                  : false;
+         async loadProvider(provider_id){
+            try{
+               let response = await axios.get(`provider/show/${provider_id}`);
+               return response.data;
+            }catch(error){
+               console.log(`Error: ${error}`);
             }
-            return false;
          },
 
-         features(){
-            return this.provider.features;
+         updateProvider(newProvider){
+            this.provider = newProvider;
          }
       },
 
       async created(){
-         this.loading = true;
-         await this.loadProvider(this.$route.params.provider_id);
-         this.loading = false;
+         this.provider = await this.loadProvider(this.$route.params.provider_id);
       }
    }
 </script>

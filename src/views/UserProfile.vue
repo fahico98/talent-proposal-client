@@ -9,7 +9,7 @@
 
          <div class="col-lg-9 px-0 mx-0">
             <div class="ms-5">
-               <user-reviews/>
+               <reviews/>
             </div>
          </div>
 
@@ -19,13 +19,13 @@
 
 <script>
 
-   import UserReviews from "../components/profile_components/UserReviews";
+   import Reviews from "../components/profile_components/Reviews";
    import LeftSide from "../components/profile_components/LeftSide";
 
    export default {
       components: {
          LeftSide,
-         UserReviews
+         Reviews
       }
    }
 
