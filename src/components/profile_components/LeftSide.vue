@@ -94,7 +94,7 @@
       methods: {
 
          ownProfile(){
-            return this.user.username == this.$route.params.username;
+            if(this.user) return this.user.username == this.$route.params.username;
          },
 
          async loadUser(username){
@@ -102,7 +102,7 @@
                let response = await axios.get(`user/show/${username}`);
                return response.data;
             }catch(error){
-               console.log(`Error: ${error}`);
+               this.$router.push({ name: "404" });
             }
          }
       },

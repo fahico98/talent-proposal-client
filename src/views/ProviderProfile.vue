@@ -74,7 +74,7 @@
       computed:{
          
          reviewed(){
-            return this.provider ? this.provider.reviewed : false;
+            return this.provider ? this.provider.reviewed : true;
          },
 
          features(){
@@ -98,7 +98,7 @@
                let response = await axios.get(`provider/show/${provider_id}`);
                return response.data;
             }catch(error){
-               console.log(`Error: ${error}`);
+               this.$router.push({ name: "404" });
             }
          },
 
